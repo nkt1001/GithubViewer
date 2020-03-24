@@ -1,0 +1,12 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.domainDependencies.kotlin
+    implementation rootProject.ext.domainDependencies.coroutines
+    testImplementation rootProject.ext.domainTestDependencies.junit
+    testImplementation rootProject.ext.domainTestDependencies.mockito
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode rootProject.ext.versionNumber
+        versionName rootProject.ext.versionCodename
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    def deps = rootProject.ext.dataDependencies
+    def depsTest = rootProject.ext.dataTestDependencies
+
+    implementation project(':domain')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.kotlin
+    implementation deps.coreKtx
+    implementation deps.coroutines
+    implementation deps.preferences
+    implementation deps.retrofit
+    implementation deps.retrofitConverter
+    implementation deps.okHttp
+    implementation deps.okHttpLogger
+    implementation deps.room
+    implementation deps.roomCoroutines
+    kapt deps.roomCompiler
+
+    testImplementation depsTest.junit
+    testImplementation depsTest.roomTesting
+    testImplementation depsTest.mockito
+
+    androidTestImplementation depsTest.mockserver
+    androidTestImplementation depsTest.espresso
+    androidTestImplementation depsTest.androidTestCore
+    androidTestImplementation depsTest.androidTestRunner
+}
