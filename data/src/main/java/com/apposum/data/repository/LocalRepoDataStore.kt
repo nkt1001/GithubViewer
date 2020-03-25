@@ -21,7 +21,7 @@ class LocalRepoDataStore(private val reposDao: GithubReposDao,
     suspend fun getSearchHistory(): List<GithubReposSearchEntity> = reposDao.getSearchHistory().map { GithubReposSearchEntity(it.search_request, it.repo_ids, it.page) }
 
     suspend fun findCacheRepoEntityList(searchRequest: String, page: Int): GithubReposEntity {
-        val cachedSearch = reposDao.searchPage(searchRequest, page) ?: return GithubReposEntity()
+        val cachedSearch = reposDao.searchPage(searchRequest, page) ?: return GithubReposEntity(nextPage = page)
 
         return reposDao.loadById(cachedSearch.repo_ids).let { dataToEntityMapper.mapToEntity(it, cachedSearch.page + 1) }
     }
