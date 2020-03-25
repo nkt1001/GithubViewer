@@ -19,10 +19,16 @@ interface GithubReposDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLastSearch(data: GithubReposSearchData)
 
-    @Query("SELECT * FROM repo_search_results WHERE search_request = :query")
-    suspend fun search(query: String): List<GithubReposSearchData>
+    @Query("SELECT * FROM repo_search_results WHERE search_request = :query AND page = :page")
+    suspend fun searchPage(query: String, page: Int): GithubReposSearchData?
 
-    @Query("SELECT * FROM repo_data WHERE id in (:repoIds)")
+    @Query("SELECT * FROM repo_search_results WHERE search_request = :query")
+    suspend fun searchAll(query: String): List<GithubReposSearchData>
+
+    @Query("SELECT * FROM repo_search_results ORDER BY request_time DESC")
+    suspend fun getSearchHistory(): List<GithubReposSearchData>
+
+    @Query("SELECT * FROM repo_data WHERE id IN (:repoIds)")
     suspend fun loadById(repoIds: List<Int>): List<RepoData>
 
     @Query("DELETE FROM repo_data")

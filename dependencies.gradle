@@ -66,7 +66,8 @@ ext {
     lifecycleVersion = '2.2.0'
     okHttpVersion = '4.2.0'
     retrofitVersion = '2.6.1'
-    converterVersion = '0.4.0'
+    converterVersion = '0.5.0'
+    serializerVersion = '0.20.0'
     roomVersion = '2.2.5'
     glideVersion = '4.9.0'
     koinVersion = '2.1.4'
@@ -90,6 +91,7 @@ ext {
 
     presentationDependencies = [
             kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
+            kotlinSerializer:    "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${serializerVersion}",
             appcompat:          "androidx.appcompat:appcompat:${compatVersion}",
             coreKtx:            "androidx.core:core-ktx:${corektxVersion}",
             coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
@@ -119,6 +121,7 @@ ext {
 
     dataDependencies = [
             kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
+            kotlinSerializer:    "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${serializerVersion}",
             coreKtx:            "androidx.core:core-ktx:${corektxVersion}",
             coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
             preferences:        "androidx.preference:preference-ktx:${compatVersion}",

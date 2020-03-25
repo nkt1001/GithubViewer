@@ -33,6 +33,7 @@ dependencies {
     implementation project(':domain')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.kotlin
+    implementation deps.kotlinSerializer
     implementation deps.coreKtx
     implementation deps.coroutines
     implementation deps.preferences

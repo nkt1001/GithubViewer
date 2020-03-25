@@ -6,6 +6,7 @@ import com.apposum.domain.repository.GithubRepoRepository
 import com.apposum.domain.usecase.FindReposUseCase
 import com.apposum.dummySearchResult
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -27,19 +28,19 @@ class FindReposUseCaseTest {
     @Test
     fun `data from the repository`() = runBlocking {
         getGithubReposEntityInResult(dummySearchResult)
-        val result = repository.findRepos()
-        assert((result as? DataEntity.Success)?.data?.items?.isNotEmpty() ?: false)
+        val result = repository.findRepos("test",1)
+        Assert.assertTrue((result as? DataEntity.Success)?.data?.items?.isNotEmpty() ?: false)
     }
 
     @Test
     fun `data from the repository is null`() = runBlocking {
         getGithubReposEntityInResult(GithubReposEntity())
-        val result = repository.findRepos()
+        val result = repository.findRepos("test",1)
 
-        assert((result as? DataEntity.Success)?.data?.items.isNullOrEmpty())
+        Assert.assertTrue((result as? DataEntity.Success)?.data?.items.isNullOrEmpty())
     }
 
     private suspend fun getGithubReposEntityInResult(testDataEntity: GithubReposEntity) {
-        Mockito.`when`(repository.findRepos()).thenReturn(DataEntity.Success(testDataEntity))
+        Mockito.`when`(repository.findRepos("test",1)).thenReturn(DataEntity.Success(testDataEntity))
     }
 }

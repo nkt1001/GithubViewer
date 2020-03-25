@@ -6,33 +6,36 @@ import com.apposum.data.entity.RepoDataEntityMapper
 import com.apposum.data.entity.RepoEntityDataMapper
 import com.apposum.domain.entity.DataEntity
 import com.apposum.domain.entity.GithubReposEntity
+import com.apposum.domain.entity.GithubReposSearchEntity
 
 class LocalRepoDataStore(private val reposDao: GithubReposDao,
                          private val entityToDataMapper: RepoEntityDataMapper,
                          private val dataToEntityMapper: RepoDataEntityMapper): RepoDataStore {
 
     override suspend fun githubRepoEntityList(searchRequest: String, page: Int): DataEntity<GithubReposEntity> {
-        val cachedSearch = reposDao.search(searchRequest)
-        val repoIds = cachedSearch.flatMap {
-            it.repo_ids
-        }
+        val cachedSearch = reposDao.searchPage(searchRequest, page) ?: return DataEntity.Success(GithubReposEntity(nextPage = page))
 
-        return reposDao.loadById(repoIds).let { DataEntity.Success(dataToEntityMapper.mapToEntity(it, cachedSearch.size + 1)) }
+        return reposDao.loadById(cachedSearch.repo_ids).let { DataEntity.Success(dataToEntityMapper.mapToEntity(it,cachedSearch.page + 1)) }
     }
 
-    suspend fun findCacheRepoEntityList(searchRequest: String): GithubReposEntity {
-        val cachedSearch = reposDao.search(searchRequest)
-        val repoIds = cachedSearch.flatMap {
-            it.repo_ids
-        }
+    suspend fun getSearchHistory(): List<GithubReposSearchEntity> = reposDao.getSearchHistory().map { GithubReposSearchEntity(it.search_request, it.repo_ids, it.page) }
 
-        return reposDao.loadById(repoIds).let { dataToEntityMapper.mapToEntity(it, cachedSearch.size + 1) }
+    suspend fun findCacheRepoEntityList(searchRequest: String, page: Int): GithubReposEntity {
+        val cachedSearch = reposDao.searchPage(searchRequest, page) ?: return GithubReposEntity()
+
+        return reposDao.loadById(cachedSearch.repo_ids).let { dataToEntityMapper.mapToEntity(it, cachedSearch.page + 1) }
     }
 
-    suspend fun saveGithubRepoEntityList(searchRequest: String, reposList: DataEntity<GithubReposEntity>) {
-        entityToDataMapper.mapResponseToData(reposList)?.let { repos ->
+    suspend fun saveGithubRepoEntityList(searchRequest: String, page: Int, reposList: DataEntity<GithubReposEntity>) {
+        entityToDataMapper.mapResponseToData(reposList).takeIf { !it.isNullOrEmpty() }?.let { repos ->
             val repoIds = repos.map { it.id }
-            reposDao.insertLastSearch(GithubReposSearchData(search_request = searchRequest, repo_ids = repoIds))
+            reposDao.insertLastSearch(
+                GithubReposSearchData(
+                    page = page,
+                    search_request = searchRequest,
+                    repo_ids = repoIds
+                )
+            )
             reposDao.insertRepos(repos)
         }
     }

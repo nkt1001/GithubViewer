@@ -10,8 +10,11 @@ class RemoteRepoDataStore(private val githubApi: GithubApi,
                           private val dataEntityMapper: RepoDataEntityMapper): RepoDataStore {
 
     override suspend fun githubRepoEntityList(searchRequest: String, page: Int): DataEntity<GithubReposEntity> = try {
-        DataEntity.Success(dataEntityMapper.mapToEntity(githubApi.findRepos(searchRequest, page).items, page + 1))
+        val result = githubApi.findRepos(searchRequest, page).items
+        val nextPage = if (result.isNotEmpty()) { page + 1 } else { page }
+        DataEntity.Success(dataEntityMapper.mapToEntity(result, nextPage))
     } catch (t: Throwable) {
+        t.printStackTrace()
         DataEntity.Error(ErrorEntity(t.message))
     }
 }

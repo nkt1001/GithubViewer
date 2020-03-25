@@ -11,8 +11,8 @@ class GithubRepoRepositoryImpl(private val remoteStore: RemoteRepoDataStore,
     override suspend fun findRepos(searchQuery: String, page: Int): DataEntity<GithubReposEntity> {
         try {
             when(val remoteResult = remoteStore.githubRepoEntityList(searchQuery, page)) {
-                is DataEntity.Success -> localStore.saveGithubRepoEntityList(searchQuery, remoteResult)
-                is DataEntity.Error -> return remoteResult.apply { data = localStore.findCacheRepoEntityList(searchQuery) }
+                is DataEntity.Success -> localStore.saveGithubRepoEntityList(searchQuery, page, remoteResult)
+                is DataEntity.Error -> return remoteResult.apply { data = localStore.findCacheRepoEntityList(searchQuery, page) }
             }
             return localStore.githubRepoEntityList(searchQuery, page)
         } catch (t: Throwable) {

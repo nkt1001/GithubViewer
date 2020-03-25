@@ -28,7 +28,7 @@ data class OwnerData(val login: String,
 
 class RepoDataEntityMapper {
 
-    fun mapToEntity(mapArticles: List<RepoData>?, nextPage: Int = 2) = mapListReposToEntity(mapArticles).let {
+    fun mapToEntity(mapArticles: List<RepoData>?, nextPage: Int = 0) = mapListReposToEntity(mapArticles).let {
         GithubReposEntity(items = it,
             total = it.size,
             nextPage = nextPage)
