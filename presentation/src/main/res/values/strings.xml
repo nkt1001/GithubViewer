@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GithubRepos</string>
+    <string name="genericError">Something went wrong</string>
+    <string name="search">Search</string>
 </resources>

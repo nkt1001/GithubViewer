@@ -6,46 +6,6 @@ allprojects {
 
 ext {
 
-    /**
-     * implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-     *     implementation 'androidx.appcompat:appcompat:1.1.0'
-     *     implementation 'androidx.core:core-ktx:1.2.0'
-     *     implementation "androidx.preference:preference-ktx:1.1.0"
-     *     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-     *
-     *     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0"
-     *     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-     *     implementation "androidx.lifecycle:lifecycle-com.apposum.core.common-java8:2.2.0"
-     *
-     *     //retrofit
-     *     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-     *     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0'
-     *     implementation 'com.squareup.okhttp3:okhttp:4.2.0'
-     *     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
-     *
-     *     //koin
-     *     implementation "org.koin:koin-core:2.0.1"
-     *     implementation "org.koin:koin-core-ext:2.0.1"
-     *     implementation "org.koin:koin-androidx-scope:2.0.1"
-     *     implementation "org.koin:koin-androidx-viewmodel:2.0.1"
-     *     implementation "org.koin:koin-androidx-ext:2.0.1"
-     *     implementation "org.koin:koin-java:2.0.1"
-     *     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-     *
-     *     testImplementation "org.koin:koin-test:2.0.1"
-     *
-     *     //coroutines
-     *     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1'
-     *     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1'
-     *
-     *     //glide
-     *     implementation 'com.github.bumptech.glide:glide:4.9.0'
-     *     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-     *
-     *     testImplementation 'junit:junit:4.12'
-     *     androidTestImplementation 'androidx.test:runner:1.2.0'
-     *     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-     */
     //Application
     versionNumber = 1
     versionCodename = "1.0"
@@ -65,13 +25,14 @@ ext {
     constraintLayoutVersion = '1.1.3'
     lifecycleVersion = '2.2.0'
     okHttpVersion = '4.2.0'
-    retrofitVersion = '2.6.1'
+    retrofitVersion = '2.6.4'
     converterVersion = '0.5.0'
     serializerVersion = '0.20.0'
     roomVersion = '2.2.5'
     glideVersion = '4.9.0'
     koinVersion = '2.1.4'
     coroutinesVersion = '1.3.5'
+    stethoVersion = '1.5.1'
 
     //Testing
     jUnitVersion = '4.12'
@@ -91,32 +52,38 @@ ext {
 
     presentationDependencies = [
             kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
+            coreKtx:            "androidx.core:core-ktx:${corektxVersion}",
             kotlinSerializer:    "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${serializerVersion}",
             appcompat:          "androidx.appcompat:appcompat:${compatVersion}",
-            coreKtx:            "androidx.core:core-ktx:${corektxVersion}",
-            coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
-            preferences:        "androidx.preference:preference-ktx:${compatVersion}",
+            material:           "com.google.android.material:material:${compatVersion}",
             constraintLayout:   "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
+            coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
             lifecycleRuntime:   "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
             lifecycleExt:       "androidx.lifecycle:lifecycle-extensions:${lifecycleVersion}",
             lifecycleCommon:    "androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}",
+            preferences:        "androidx.preference:preference-ktx:${compatVersion}",
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter:  "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${converterVersion}",
             okHttp:             "com.squareup.okhttp3:okhttp:${okHttpVersion}",
             okHttpLogger:       "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
             room:               "androidx.room:room-runtime:${roomVersion}",
             roomCoroutines:     "androidx.room:room-ktx:${roomVersion}",
+            roomCompiler:       "androidx.room:room-compiler:${roomVersion}",
             koin:               "org.koin:koin-androidx-viewmodel:${koinVersion}",
             glide:              "com.github.bumptech.glide:glide:${glideVersion}",
-            glideCompiler:      "com.github.bumptech.glide:compiler:${glideVersion}"
+            glideCompiler:      "com.github.bumptech.glide:compiler:${glideVersion}",
+            stetho:             "com.facebook.stetho:stetho:${stethoVersion}"
     ]
 
     presentationTestDependencies = [
             junit:              "junit:junit:${jUnitVersion}",
-            mockito:            "com.nhaarman:mockito-kotlin:${mockitoVersion}",
-            mockserver:         "com.squareup.okhttp3:mockwebserver:${okHttpVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+            roomTesting:        "androidx.room:room-testing:${roomVersion}",
             espresso:           "androidx.test.espresso:espresso-core:${espressoVersion}",
-            androidTestRunner:  "androidx.test:runner:${runnerVersion}"
+            androidTestCore:    "androidx.test:core:${runnerVersion}",
+            mockserver:         "com.squareup.okhttp3:mockwebserver:${okHttpVersion}",
+            androidTestRunner:  "androidx.test:runner:${runnerVersion}",
+            koinTest:           "org.koin:koin-test:${koinVersion}"
     ]
 
     dataDependencies = [

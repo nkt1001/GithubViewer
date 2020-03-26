@@ -1,12 +1,8 @@
 package com.apposum.githubrepos
 
-import android.os.Bundle
 import com.apposum.githubrepos.common.BaseActivity
+import com.apposum.githubrepos.databinding.ActivityMainBinding
 
-class MainActivity : BaseActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    override fun getLayoutId(): Int = R.layout.activity_main
 }
