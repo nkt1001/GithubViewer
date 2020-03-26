@@ -56,6 +56,7 @@ ext {
             kotlinSerializer:    "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${serializerVersion}",
             appcompat:          "androidx.appcompat:appcompat:${compatVersion}",
             material:           "com.google.android.material:material:${compatVersion}",
+            refreshLayout:      "androidx.swiperefreshlayout:swiperefreshlayout:${legacySupportVersion}",
             constraintLayout:   "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}",
             coroutines:         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}",
             lifecycleRuntime:   "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",

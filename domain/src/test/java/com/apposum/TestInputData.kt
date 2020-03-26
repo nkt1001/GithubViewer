@@ -44,5 +44,6 @@ internal val dummyRepoList: List<RepoEntity> = listOf(RepoEntity(
 internal val dummySearchResult: GithubReposEntity = GithubReposEntity(
     total = dummyRepoList.size,
     items = dummyRepoList,
-    nextPage = 2
+    nextPage = 2,
+    searchQuery = "test"
 )

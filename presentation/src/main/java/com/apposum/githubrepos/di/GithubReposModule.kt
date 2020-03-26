@@ -10,6 +10,7 @@ import com.apposum.data.repository.LocalRepoDataStore
 import com.apposum.data.repository.RemoteRepoDataStore
 import com.apposum.domain.repository.GithubRepoRepository
 import com.apposum.domain.usecase.FindReposUseCase
+import com.apposum.domain.usecase.GetLastSearchResultUseCase
 import com.apposum.githubrepos.BuildConfig
 import com.apposum.githubrepos.mapper.RepoEntityMapper
 import com.apposum.githubrepos.reposearch.RepoSearchViewModel
@@ -42,7 +43,8 @@ val mRepositoryModules = module {
 }
 
 val mUseCaseModules = module {
-    factory(named(GET_NEWS_USECASE)) { FindReposUseCase(get()) }
+    factory { FindReposUseCase(get()) }
+    factory { GetLastSearchResultUseCase(get()) }
 }
 
 val mNetworkModules = module {
@@ -80,13 +82,12 @@ val mLocalModules = module {
 }
 
 val mViewModels = module {
-    viewModel { RepoSearchViewModel(get(), get()) }
+    viewModel { RepoSearchViewModel(get(), get(), get()) }
 }
 
 private const val RETROFIT_INSTANCE = "Retrofit"
 private const val OKHTTP_INSTANCE = "OkHttp"
 private const val JSON_SERIALIZER_INSTANCE = "Serializer"
 private const val API = "Api"
-private const val GET_NEWS_USECASE = "getNewsUseCase"
 private const val DATABASE = "database"
 private const val BASE_URL = "https://api.github.com/"

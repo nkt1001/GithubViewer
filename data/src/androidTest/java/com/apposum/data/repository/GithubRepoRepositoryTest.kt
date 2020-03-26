@@ -184,9 +184,9 @@ class GithubRepoRepositoryTest {
         Assert.assertTrue(response2 is DataEntity.Success)
         Assert.assertTrue((response2 as DataEntity.Success).data?.items != null)
         Assert.assertTrue(reposInDb2.items?.size == response.data?.items?.size?.plus(response2.data?.items?.size ?: 0))
-        Assert.assertTrue(searchHistory.size == 1)
+        Assert.assertTrue(searchHistory.size == 2)
         Assert.assertTrue(searchHistory[0].query == "emptyRespondThenOk")
-        Assert.assertTrue(searchHistory[0].page == 1)
+        Assert.assertTrue(searchHistory[0].page == 2)
     }
 
     @Test
@@ -205,5 +205,27 @@ class GithubRepoRepositoryTest {
 
         Assert.assertTrue(response is DataEntity.Error)
         Assert.assertTrue(reposInDb.items?.isEmpty() ?: false)
+    }
+    @Test
+    fun findReposThanGetLastSearch() = runBlocking(Dispatchers.IO) {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val input = context.assets.open("okResponse")
+
+
+        mockWebServer.enqueue(MockResponse().apply {
+            setResponseCode(200)
+            setBody(Buffer().readFrom(input))
+        })
+        input.close()
+        val response = repository.findRepos("httpOkRequestAndSaveResult", 1)
+
+        Assert.assertTrue(response is DataEntity.Success)
+
+        val reposInDb = localStore.findCacheRepoEntityList("httpOkRequestAndSaveResult", 1)
+
+        Assert.assertTrue(reposInDb.items?.size == 30)
+
+        val lastSearch = repository.getLastSearch()
+        Assert.assertTrue(response.data == lastSearch.data)
     }
 }

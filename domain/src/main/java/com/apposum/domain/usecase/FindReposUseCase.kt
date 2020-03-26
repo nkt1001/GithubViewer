@@ -6,5 +6,5 @@ import com.apposum.domain.repository.GithubRepoRepository
 
 class FindReposUseCase(private val githubRepoRepository: GithubRepoRepository) {
 
-    suspend operator fun invoke(data: String, page: Int): DataEntity<GithubReposEntity> = githubRepoRepository.findRepos(data, page)
+    suspend operator fun invoke(searchQuery: String, page: Int): DataEntity<GithubReposEntity> = githubRepoRepository.findRepos(searchQuery, page)
 }

@@ -34,7 +34,7 @@ class FindReposUseCaseTest {
 
     @Test
     fun `data from the repository is null`() = runBlocking {
-        getGithubReposEntityInResult(GithubReposEntity(nextPage = 2))
+        getGithubReposEntityInResult(GithubReposEntity(nextPage = 2, searchQuery = "test"))
         val result = repository.findRepos("test",1)
 
         Assert.assertTrue((result as? DataEntity.Success)?.data?.items.isNullOrEmpty())

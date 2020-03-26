@@ -51,6 +51,7 @@ dependencies {
     implementation deps.kotlinSerializer
     implementation deps.appcompat
     implementation deps.material
+    implementation deps.refreshLayout
     implementation deps.constraintLayout
     implementation deps.coroutines
     implementation deps.lifecycleRuntime
@@ -79,4 +80,6 @@ dependencies {
     androidTestImplementation depsTest.espresso
     androidTestImplementation depsTest.androidTestCore
     androidTestImplementation depsTest.androidTestRunner
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
 }

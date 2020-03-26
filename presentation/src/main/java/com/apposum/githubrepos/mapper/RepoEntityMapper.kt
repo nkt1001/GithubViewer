@@ -10,9 +10,8 @@ class RepoEntityMapper : Mapper<DataEntity<GithubReposEntity>, Data<GithubRepos>
 
     override fun mapFrom(from: DataEntity<GithubReposEntity>): Data<GithubRepos> {
         return when (from) {
-            is DataEntity.Success -> Data.Success(from.data?.let { GithubRepos(it.nextPage, it.total, mapReposToPresentation(it.items)) })
-            is DataEntity.Error -> Data.Error(Error(from.error.message), from.data?.let { GithubRepos(it.nextPage, it.total, mapReposToPresentation(it.items)) })
-            is DataEntity.Loading -> Data.Loading()
+            is DataEntity.Success -> Data.Success(from.data?.let { GithubRepos(it.nextPage, it.searchQuery, it.total, mapReposToPresentation(it.items)) })
+            is DataEntity.Error -> Data.Error(Error(from.error.message), from.data?.let { GithubRepos(it.nextPage, it.searchQuery, it.total, mapReposToPresentation(it.items)) })
         }
     }
 

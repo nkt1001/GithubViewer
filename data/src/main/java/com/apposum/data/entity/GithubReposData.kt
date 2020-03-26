@@ -29,10 +29,11 @@ data class OwnerData(val login: String,
 
 class RepoDataEntityMapper : Mapper<RepoData, RepoEntity> {
 
-    fun mapToEntity(mapArticles: List<RepoData>?, nextPage: Int = 0): GithubReposEntity = mapListReposToEntity(mapArticles).let {
+    fun mapToEntity(mapRepos: List<RepoData>?, nextPage: Int = 0, searchQuery: String): GithubReposEntity = mapListReposToEntity(mapRepos).let {
         GithubReposEntity(items = it,
             total = it.size,
-            nextPage = nextPage)
+            nextPage = nextPage,
+            searchQuery = searchQuery)
     }
 
     private fun mapListReposToEntity(repos: List<RepoData>?): List<RepoEntity> = repos?.map { mapFrom(it) } ?: emptyList()

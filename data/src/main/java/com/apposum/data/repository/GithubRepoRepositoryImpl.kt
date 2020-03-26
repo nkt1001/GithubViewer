@@ -19,4 +19,22 @@ class GithubRepoRepositoryImpl(private val remoteStore: RemoteRepoDataStore,
             return DataEntity.Error(ErrorEntity(t.message))
         }
     }
+
+    override suspend fun getLastSearch(): DataEntity<GithubReposEntity> {
+        try {
+            val lastSearchResult = localStore.getSearchHistory()
+
+            if (lastSearchResult.isNullOrEmpty()) {
+                return DataEntity.Success()
+            }
+
+            when(val remoteResult = remoteStore.githubRepoEntityList(lastSearchResult[0].query, 1)) {
+                is DataEntity.Success -> localStore.saveGithubRepoEntityList(lastSearchResult[0].query, 1, remoteResult)
+                is DataEntity.Error -> return remoteResult.apply { data = localStore.findCacheRepoEntityList(lastSearchResult[0].query, 1) }
+            }
+            return localStore.githubRepoEntityList(lastSearchResult[0].query, 1)
+        } catch (t: Throwable) {
+            return DataEntity.Error(ErrorEntity(t.message))
+        }
+    }
 }
